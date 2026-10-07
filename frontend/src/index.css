@@ -1,0 +1,9 @@
+/* Design system + component styles (order matters) */
+@import "./styles/tokens.css";
+@import "./styles/base.css";
+@import "./styles/common.css";
+@import "./styles/auth.css";
+@import "./styles/sidebar.css";
+@import "./styles/chat.css";
+@import "./styles/messages.css";
+@import "./styles/profile.css";

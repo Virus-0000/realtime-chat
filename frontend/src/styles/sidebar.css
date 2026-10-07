@@ -1,0 +1,428 @@
+/* ==========================================================================
+   App shell
+   ========================================================================== */
+.app-shell {
+    position: relative;
+    display: flex;
+    height: 100dvh;
+    overflow: hidden;
+    /* "clip" also blocks programmatic scrolling (e.g. focusing an input inside
+       a pane that is sliding in), which would shift the whole layout */
+    overflow: clip;
+    background: var(--bg-app);
+}
+
+/* Large screens: float the app as a framed window */
+@media (min-width: 1700px) and (min-height: 760px) {
+    body {
+        background:
+            radial-gradient(1200px 700px at 15% 0%, var(--chat-glow-1), transparent 60%),
+            radial-gradient(900px 700px at 100% 100%, var(--chat-glow-2), transparent 60%),
+            var(--bg-page);
+    }
+
+    #root {
+        display: grid;
+        place-items: center;
+        padding: 28px;
+    }
+
+    .app-shell {
+        width: min(100%, 1680px);
+        height: min(100%, 1020px);
+        border-radius: 24px;
+        border: 1px solid var(--border-strong);
+        box-shadow: var(--shadow-lg);
+    }
+}
+
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+.sidebar {
+    --ring-color: var(--bg-sidebar);
+    flex: none;
+    width: var(--sidebar-w);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+}
+
+.sidebar__header {
+    flex: none;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px 0 20px;
+}
+
+.sidebar__actions {
+    display: flex;
+    gap: 2px;
+}
+
+.search {
+    position: relative;
+    flex: none;
+    margin: 2px 16px 10px;
+}
+
+.search__icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-3);
+    pointer-events: none;
+}
+
+.search__input {
+    width: 100%;
+    height: 42px;
+    padding: 0 38px 0 40px;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    background: var(--surface-2);
+    outline: none;
+    transition: border-color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease),
+        box-shadow var(--dur-fast) var(--ease);
+}
+
+.search__input::placeholder {
+    color: var(--text-3);
+}
+
+.search__input::-webkit-search-cancel-button {
+    display: none;
+}
+
+.search__input:focus {
+    background: var(--surface-1);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.search__clear {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    color: var(--text-3);
+}
+
+.search__clear:hover {
+    background: var(--surface-active);
+    color: var(--text);
+}
+
+.conv-list,
+.search-results {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0 8px 8px;
+}
+
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px 6px;
+    font-size: 11.5px;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+}
+
+.section-label span {
+    padding: 0 7px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    letter-spacing: 0;
+    font-size: 11px;
+    color: var(--text-2);
+}
+
+/* ---------- Conversation row ---------- */
+.conv,
+.person {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--radius-lg);
+    text-align: left;
+    transition: background-color var(--dur-fast) var(--ease);
+}
+
+.conv:hover,
+.person:hover:not(:disabled) {
+    background: var(--surface-hover);
+}
+
+.conv:active {
+    background: var(--surface-active);
+}
+
+.conv.is-active {
+    background: var(--accent-soft);
+}
+
+.conv.is-active::before {
+    content: "";
+    position: absolute;
+    left: -8px;
+    top: 18px;
+    bottom: 18px;
+    width: 4px;
+    border-radius: 0 4px 4px 0;
+    background: var(--accent);
+}
+
+.conv__body,
+.person__body {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    gap: 3px;
+}
+
+.conv__top,
+.conv__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 0;
+}
+
+.conv__name,
+.person__name {
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.conv__time {
+    flex: none;
+    font-size: 12px;
+    color: var(--text-3);
+}
+
+.conv.has-unread .conv__time {
+    color: var(--accent-text);
+    font-weight: 600;
+}
+
+.conv__preview {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-2);
+    font-size: 13.5px;
+}
+
+.conv.has-unread .conv__preview {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.conv__text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.conv__you {
+    color: var(--text-3);
+}
+
+.conv__empty {
+    color: var(--text-3);
+    font-style: italic;
+}
+
+.conv__typing {
+    color: var(--accent-text);
+    font-weight: 550;
+}
+
+.conv__tick {
+    flex: none;
+    color: var(--text-3);
+}
+
+.conv__tick--read {
+    color: var(--accent);
+}
+
+.conv__kind {
+    flex: none;
+    color: var(--text-3);
+}
+
+.badge {
+    flex: none;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--text-on-accent);
+    font-size: 11.5px;
+    font-weight: 650;
+    animation: pop-in var(--dur) var(--ease);
+}
+
+@keyframes pop-in {
+    from { transform: scale(0.5); opacity: 0; }
+}
+
+.conv-skeleton {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+}
+
+.conv-skeleton__lines {
+    flex: 1;
+    display: grid;
+    gap: 9px;
+}
+
+/* ---------- People search result ---------- */
+.person__email {
+    color: var(--text-2);
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ---------- Current user card ---------- */
+.user-card {
+    --ring-color: var(--surface-1);
+    flex: none;
+    margin: 8px 12px calc(12px + var(--safe-bottom));
+    padding: 9px 12px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    box-shadow: var(--shadow-xs);
+    text-align: left;
+    transition: background-color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+
+.user-card:hover,
+.user-card.is-open {
+    background: var(--surface-2);
+    border-color: var(--border-strong);
+}
+
+.user-card__body {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+}
+
+.user-card__name {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-card__status {
+    font-size: 12.5px;
+    color: var(--text-3);
+}
+
+.user-card__chevron {
+    color: var(--text-3);
+    flex: none;
+}
+
+/* ==========================================================================
+   Responsive shell
+   ========================================================================== */
+@media (max-width: 1279px) {
+    :root { --sidebar-w: 332px; }
+}
+
+@media (max-width: 1024px) {
+    :root { --sidebar-w: 306px; }
+}
+
+/* Phones & small tablets: one pane at a time */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        border-right: 0;
+    }
+
+    .sidebar__header {
+        padding-top: var(--safe-top);
+        height: calc(68px + var(--safe-top));
+    }
+
+    .icon-btn--md {
+        width: 42px;
+        height: 42px;
+    }
+
+    .search__input {
+        font-size: 16px;
+        height: 44px;
+    }
+
+    .conv,
+    .person {
+        padding: 12px;
+    }
+
+    .conv.is-active {
+        background: transparent;
+    }
+
+    .conv.is-active::before {
+        display: none;
+    }
+
+    /* .app-shell prefix: must out-rank the base .chat-main rule in chat.css */
+    .app-shell .chat-main {
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+        transform: translateX(100%);
+        visibility: hidden;
+        transition: transform var(--dur-slow) var(--ease), visibility 0s linear var(--dur-slow);
+    }
+
+    .app-shell[data-view="chat"] .chat-main {
+        transform: none;
+        visibility: visible;
+        transition: transform var(--dur-slow) var(--ease), visibility 0s;
+    }
+}
