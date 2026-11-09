@@ -12,6 +12,7 @@ const conversationRoutes = require("./routes/conversationRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const uploadRoutes =
     require("./routes/uploadRoutes");
+const callRoutes = require("./routes/callRoutes");
 
 const app = express();
 const server = http.createServer(app);
@@ -34,6 +35,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/conversations", conversationRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/calls", callRoutes);
 
 app.get("/", (req, res) => {
     res.send("Realtime Chat Server is Running");
