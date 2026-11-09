@@ -13,7 +13,7 @@
     justify-content: space-between;
     padding: 44px 56px;
     color: #fff;
-    background: linear-gradient(155deg, #23266f 0%, #3a3ec9 55%, #5b5fef 100%);
+background: linear-gradient(155deg, #111111 0%, #292019 55%, #D9541E 100%);
 }
 
 .auth__brand .logo__name {
@@ -93,7 +93,7 @@
     height: 420px;
     right: -140px;
     top: -120px;
-    background: rgba(140, 220, 255, 0.4);
+background: rgba(217, 84, 30, 0.28);
 }
 
 .auth__orb--b {
@@ -101,7 +101,7 @@
     height: 360px;
     left: -120px;
     bottom: -140px;
-    background: rgba(200, 120, 255, 0.35);
+background: rgba(245, 238, 227, 0.18);
 }
 
 .auth__panel {

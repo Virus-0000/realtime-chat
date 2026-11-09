@@ -17,8 +17,8 @@ export function LogoMark({ size = 32 }) {
                     y2="60"
                     gradientUnits="userSpaceOnUse"
                 >
-                    <stop stopColor="#7A7DFF" />
-                    <stop offset="1" stopColor="#4A4DE0" />
+                   <stop stopColor="#F07842" />
+<stop offset="1" stopColor="#D9541E" />
                 </linearGradient>
             </defs>
             <rect width="64" height="64" rx="18" fill="url(#relay-logo-gradient)" />

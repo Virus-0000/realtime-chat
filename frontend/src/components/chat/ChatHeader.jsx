@@ -1,4 +1,10 @@
-import { ArrowLeft, PanelRight, Search } from "lucide-react";
+import {
+    ArrowLeft,
+    PanelRight,
+    Search,
+    Phone,
+    Video
+} from "lucide-react";
 import { useChat } from "../../context/chatContext";
 import useTick from "../../hooks/useTick";
 import { formatLastSeen } from "../../utils/format";
@@ -29,7 +35,13 @@ export function PresenceStatus({ user }) {
         );
     }
 
-    return <span className="status">{formatLastSeen(getLastSeen(user))}</span>;
+return (
+    <span className="status status--last-seen">
+        <span className="status__marquee">
+            {formatLastSeen(getLastSeen(user))}
+        </span>
+    </span>
+);
 }
 
 export default function ChatHeader({
@@ -37,7 +49,8 @@ export default function ChatHeader({
     panelOpen,
     onTogglePanel,
     searchOpen,
-    onToggleSearch
+    onToggleSearch,
+    onStartCall
 }) {
     const { otherUser, isOnline } = useChat();
 
@@ -67,7 +80,17 @@ export default function ChatHeader({
                     <PresenceStatus user={otherUser} />
                 </span>
             </button>
+<IconButton
+    icon={Phone}
+    label="Start voice call"
+    onClick={() => onStartCall?.("audio")}
+/>
 
+<IconButton
+    icon={Video}
+    label="Start video call"
+    onClick={() => onStartCall?.("video")}
+/>
             <div className="chat-header__actions">
                 <IconButton
                     icon={Search}

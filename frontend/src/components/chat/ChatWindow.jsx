@@ -12,7 +12,12 @@ import MessageSearchBar from "./MessageSearchBar";
 
 // The open conversation. Rendered with key={conversationId}, so all local
 // state (search, attachment, drag state) resets when switching chats.
-export default function ChatWindow({ panelOpen, onTogglePanel, onOpenImage }) {
+export default function ChatWindow({
+    panelOpen,
+    onTogglePanel,
+    onOpenImage,
+    onStartCall
+}) {
     const { closeConversation, messages, deleteMessage } = useChat();
     const toast = useToast();
 
@@ -77,13 +82,14 @@ export default function ChatWindow({ panelOpen, onTogglePanel, onOpenImage }) {
             }}
             onDrop={handleDrop}
         >
-            <ChatHeader
-                onBack={closeConversation}
-                panelOpen={panelOpen}
-                onTogglePanel={onTogglePanel}
-                searchOpen={searchOpen}
-                onToggleSearch={() => (searchOpen ? closeSearch() : setSearchOpen(true))}
-            />
+          <ChatHeader
+    onBack={closeConversation}
+    panelOpen={panelOpen}
+    onTogglePanel={onTogglePanel}
+    searchOpen={searchOpen}
+    onToggleSearch={() => (searchOpen ? closeSearch() : setSearchOpen(true))}
+    onStartCall={onStartCall}
+/>
 
             {searchOpen && (
                 <MessageSearchBar

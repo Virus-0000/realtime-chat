@@ -14,7 +14,7 @@
 .logo-mark {
     flex: none;
     border-radius: 28%;
-    box-shadow: 0 4px 12px -3px rgba(91, 95, 239, 0.55);
+    box-shadow: 0 4px 12px -3px rgba(217, 84, 30, 0.55);
 }
 
 /* ---------- Avatar ---------- */
@@ -669,4 +669,13 @@
 .fatal p {
     color: var(--text-2);
     margin-bottom: 10px;
+}
+/* ---------- Accessible focus states ---------- */
+.btn:focus-visible,
+.icon-btn:focus-visible,
+.field__toggle:focus-visible,
+.toast__close:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 4px var(--accent-soft);
 }

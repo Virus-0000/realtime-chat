@@ -1,3 +1,4 @@
+const setupCallHandlers = require("./callHandlers");
 const {
     createMessage
 } = require("../services/messageService");
@@ -47,6 +48,8 @@ const setupSocket = (io) => {
 
             const userId =
                 String(socket.user._id);
+
+            setupCallHandlers(io, socket);
 
             // Personal room (used for events that target one user,
             // e.g. a brand-new conversation started by someone else)

@@ -52,6 +52,7 @@
     overflow-wrap: anywhere;
     line-height: 1.45;
     font-size: 15px;
+    transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
 .msg__bubble::after {
@@ -586,5 +587,22 @@
         -webkit-touch-callout: none;
         -webkit-user-select: none;
         user-select: none;
+    }
+}
+.msg__action:focus-visible,
+.quote:focus-visible,
+.file-card:focus-visible,
+.media:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}@media (hover: hover) and (pointer: fine) {
+    .msg__bubble:hover {
+        transform: translateY(-1px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .msg__bubble {
+        transition: none;
     }
 }
